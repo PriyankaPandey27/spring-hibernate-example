@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" name="Price" packages="">
+    <Appenders>
+
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%m%n"/>
+        </Console>
+
+        <RollingRandomAccessFile name="file"
+                                 fileName="/apps/logs/SpringBootApplication.log"
+                                 immediateFlush="true"
+                                 filePattern="/apps/logs/SpringBootApplication.log.%i">
+            <PatternLayout>
+                <Pattern>[%p] %d [%t] %x %c{1}.%M - %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="20 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="25" />
+        </RollingRandomAccessFile>
+
+    </Appenders>
+
+    <Loggers>
+
+        <!--<logger name="com.tgt.srt.db.mapper" level="debug" additivity="false">-->
+            <!--<AppenderRef ref="file" />-->
+        <!--</logger>-->
+
+        <logger name="com.sample" level="debug" additivity="false">
+            <AppenderRef ref="file"/>
+        </logger>
+
+        <Root level="error">
+            <AppenderRef ref="file"/>
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+    </Loggers>
+</Configuration>
