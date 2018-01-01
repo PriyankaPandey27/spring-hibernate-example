@@ -13,19 +13,37 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
 @Api(value="NoteController", description="Operations pertaining to notes database entries")
 public class NoteController {
 
     @Autowired
     NoteRepository noteRepository;
 
-    @GetMapping("/notes")
+	@RequestMapping(value = "/notes/dummy",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(value = "Dummy",
+			notes = "Dummy", responseContainer = "Note")
+	public String getDummyAPI() {
+		return "I am running";
+	}
+
+	@RequestMapping(value = "/notes",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(value = "API to BULK GET Notes data",
+			notes = "API to BULK GET Notes data",
+			response = Note.class, responseContainer = "Note")
     public List<Note> getAllNotes() {
         return noteRepository.findAll();
     }
 
-    @GetMapping("/notes/{id}")
+    @RequestMapping(value = "/notes/{id}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(value = "API to GET Notes data",
+			notes = "API to GET Notes data",
+			response = Note.class, responseContainer = "Note")
     public ResponseEntity<Note> getNoteById(@PathVariable(value = "id") Long noteId) {
         Note note = noteRepository.findOne(noteId);
         if(note == null) {
@@ -44,7 +62,12 @@ public class NoteController {
         return noteRepository.save(note);
     }
 
-    @PutMapping("/notes/{id}")
+	@RequestMapping(value = "/notes/{id}",
+			method = RequestMethod.PUT,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(value = "API to PUT Notes data",
+			notes = "API to PUT Notes data",
+			response = Note.class, responseContainer = "Note")
     public ResponseEntity<Note> updateNote(@PathVariable(value = "id") Long noteId,
 										   @Valid @RequestBody Note noteDetails) {
         Note note = noteRepository.findOne(noteId);
@@ -58,7 +81,12 @@ public class NoteController {
         return ResponseEntity.ok(updatedNote);
     }
 
-    @DeleteMapping("/notes/{id}")
+	@RequestMapping(value = "/notes/{id}",
+			method = RequestMethod.DELETE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(value = "API to DELETE Notes data",
+			notes = "API to DELETE Notes data",
+			response = Note.class, responseContainer = "Note")
     public ResponseEntity<Note> deleteNote(@PathVariable(value = "id") Long noteId) {
         Note note = noteRepository.findOne(noteId);
         if(note == null) {

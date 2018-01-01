@@ -76,4 +76,16 @@ public class Note {
         this.updatedAt = updatedAt;
     }
 
+	public Note(String title, String content) {
+		this.title = title;
+		this.content = content;
+	}
+
+	public Note() {
+	}
+
+	@Override
+	public String toString() {
+		return title+ " " + content;
+	}
 }
